@@ -19,10 +19,15 @@ Requirements:
 
 ## development
 
-Create virtual enviroment
+1. Create virtual enviroment
 
 	virtualenv virtualenv
 	source virtualenv/bin/active
+
+2. Create requirements about Current project
+
+	pip3 freeze > requirements.txt  # Python3
+	pip freeze > requirements.txt  # Python2
 
 ## Execute scrap
 
