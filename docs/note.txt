@@ -1,0 +1,15 @@
+#### step to step for scrap
+
+PAGE: https://www.plazavea.com.pe/libreria-y-oficina
+
+CATEGORIA: content[1].values
+https://www.plazavea.com.pe/files/666_data.json
+
+
+subcategoria: CONTENT[1]
+https://www.plazavea.com.pe/files/906_data.json
+
+
+ITEMS
+// <script type="text/javascript" language="javascript">vtxctx = {"searchTerm":"","categoryId":"904"
+https://www.plazavea.com.pe/api/catalog_system/pub/products/search?fq=C:/666/906/904/&_from=0&_to=40&O=OrderByScoreDESC&

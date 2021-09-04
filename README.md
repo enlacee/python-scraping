@@ -13,7 +13,7 @@ Requirements:
 	google chrome (v92)
 	chromedriver (v92)
 
-	python 2.8
+	python 3.
 	pip
 	virtualenv
 
@@ -31,9 +31,20 @@ Requirements:
 
 ## Execute scrap
 
-	python main3.py
+	#01. Get all categories (this generate the file: 01.categories)
+	python3 main5.py
 
+
+	#02. Get category and subcategories
+	python3 main6.py
+
+
+The usefull files for consume are:
+	
+* 01.categories.json `list of all categories`
+* 02.categories.json `list of all categories and subcategories`
 
 ## image reference
 
 ![thumbnail](./docs/Screenshot_20210821_153849.png)
+
