@@ -45,8 +45,9 @@ def buscarTodosLosProductos(IDURL):
 		print(str(i) + " reading... " + theURLJSON)
 		dataStorage.append(jsonData)
 		i += 1
-		# if i == 2:
-		if len(jsonData) == 0:
+		
+		if i == 2: # Recorre solo 1 vez
+		# if len(jsonData) == 0:
 			centinela = False
 	return dataStorage
 
