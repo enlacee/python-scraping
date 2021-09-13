@@ -5,8 +5,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import json
 import requests
-import numpy as np
-
 
 DRIVER_PATH = './chromedriver'
 options = Options()
@@ -28,7 +26,7 @@ newData = {}
 for firstIndex, category in enumerate(data):
 	driver.get(category["url"])
 	scriptText = driver.execute_script("return document.querySelector('head > script:nth-child(43)').text;")
-	stringJSON = scriptText[9:-1];
+	stringJSON = scriptText[9:-1]; # clean string remove variable=> vtxctx = 
 	jsonData = json.loads(stringJSON)
 	categoryId = jsonData['categoryId']
 
@@ -41,9 +39,10 @@ for firstIndex, category in enumerate(data):
 	categoryJsonData = json.loads(response.text)
 	listSubCategories = categoryJsonData['content'][1]['values']
 
-	newData[firstIndex] = {"name": category['name'], "url": category['url'], "image": category['image'], "subcategories": {}}
+	newData[firstIndex] = {"id": categoryId,"name": category['name'], "url": category['url'], "image": category['image'], "subcategories": {}}
 	
 	for secondIndex, category in enumerate(listSubCategories):
+		# print(category)
 		urlIMG = "https://plazavea.vteximg.com.br/arquivos/" + category['image'] + '.' + category['image_format']
 		newData[firstIndex]["subcategories"][secondIndex] = {"name": category['name'], "url": category['url'], "image": urlIMG}
 
