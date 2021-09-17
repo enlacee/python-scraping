@@ -42,12 +42,16 @@ def buscarTodosLosProductos(IDURL):
 		response = requests.get(theURLJSON)
 		jsonData = json.loads(response.text)
 		# print(len(jsonData))
+
 		print(str(i) + " reading... " + theURLJSON)
-		dataStorage.append(jsonData)
+		for item in jsonData:
+			dataStorage.append({"id": item["productId"], "nombre": item["productName"],"marca": item["brand"] })
+
+		# dataStorage.append(jsonData)
 		i += 1
 		
-		if i == 2: # Recorre solo 1 vez
-		# if len(jsonData) == 0:
+		# if i == 2: # Recorre solo 1 vez
+		if len(jsonData) == 0:
 			centinela = False
 	return dataStorage
 
@@ -77,15 +81,35 @@ for firstIndex, category in enumerate(data):
 		# NOW READ PAGE SUBCATEGORIE : WHERE ARE ALL PRODUCTS:
 		# theURL = "https://www.plazavea.com.pe/api/catalog_system/pub/products/search?fq=C:/666/906/904/&_from=0&_to=47&O=OrderByScoreDESC&
 		driver.get(category["url"])
-		scriptText = driver.execute_script("return document.querySelector('head > script:nth-child(43)').text;")
-		stringJSON = scriptText[9:-1]; # clean string remove variable=> vtxctx = 
-		jsonData = json.loads(stringJSON)
-		# categoryId = jsonData['categoryId']
-		# print(jsonData)
-		buildIDURL = jsonData["departmentyId"] + '/' + data[str(firstIndex)]["id"] + '/' + jsonData["categoryId"]
-		# theURL = "https://www.plazavea.com.pe/api/catalog_system/pub/products/search?fq=C:/666/906/904/&_from=0&_to=20&O=OrderByScoreDESC&"
-		allProducts = buscarTodosLosProductos(buildIDURL); # print(allProducts)
-		newData[firstIndex]["subcategories"][secondIndex]["products"] = allProducts
+		# scriptText = driver.execute_script("return document.querySelector('head > script:nth-child(64)').text;")
+		scriptText = driver.execute_script("""
+			var nodes = document.querySelectorAll('head > script');
+			var nodeScripText = '';
+			nodes.forEach(function(el){
+				if (el.text.length > 0) {
+					console.log(el.text)
+					if (el.text.search("vtxctx") !== -1) {
+						nodeScripText = el.text;
+					}
+				}
+			});
+
+			return nodeScripText;
+		""")
+
+		# validation if has string
+		if len(scriptText) > 0:
+			stringJSON = scriptText[9:-1]; # clean string remove variable=> vtxctx = 
+			jsonData = json.loads(stringJSON)
+			
+			# categoryId = jsonData['categoryId']
+			# print(jsonData)
+			buildIDURL = jsonData["departmentyId"] + '/' + data[str(firstIndex)]["id"] + '/' + jsonData["categoryId"]
+			# theURL = "https://www.plazavea.com.pe/api/catalog_system/pub/products/search?fq=C:/666/906/904/&_from=0&_to=20&O=OrderByScoreDESC&"
+			allProducts = buscarTodosLosProductos(buildIDURL); # print(allProducts)
+			newData[firstIndex]["subcategories"][secondIndex]["products"] = allProducts
+		else:
+			print("No encontro data script (corrija el SCRIPT)")
 		# break
 	# break
 
