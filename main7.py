@@ -38,21 +38,25 @@ def buscarTodosLosProductos(IDURL):
 	centinela = True
 	while centinela == True:
 		# recorriendo URL
+		# theURLJSON = "https://www.plazavea.com.pe/api/catalog_system/pub/products/search?fq=C:/666/906/904/&_from=0&_to=499999&O=OrderByScoreDESC&"
 		theURLJSON = generateURLPaginate(IDURL, i)
 		response = requests.get(theURLJSON)
 		jsonData = json.loads(response.text)
-		# print(len(jsonData))
-
 		print(str(i) + " reading... " + theURLJSON)
-		for item in jsonData:
-			dataStorage.append({"id": item["productId"], "nombre": item["productName"],"marca": item["brand"] })
 
-		# dataStorage.append(jsonData)
-		i += 1
-		
-		# if i == 2: # Recorre solo 1 vez
-		if len(jsonData) == 0:
+		if isinstance(jsonData, list):
+			for item in jsonData:
+				# print("si entro FOR product!")
+				dataStorage.append({"id": item["productId"], "nombre": item["productName"],"marca": item["brand"] })
+			# dataStorage.append(jsonData)
+
+			i += 1
+			# if i == 2: # Recorre solo 1 vez
+			if len(jsonData) == 0 :
+				centinela = False
+		else:
 			centinela = False
+
 	return dataStorage
 
 
@@ -120,4 +124,4 @@ with open("03.categories.json", "w") as write_file:
 
 
 # close browser
-driver.close();
+driver.close()
